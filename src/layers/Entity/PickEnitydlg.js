@@ -4,7 +4,6 @@
  * @date 2022/2/8 18:53:48
  */
 import * as Cesium from 'cesium'
-import $ from 'jquery'
 
 export  function OpenPopdlg(viewer) {
 
@@ -17,11 +16,11 @@ export  function OpenPopdlg(viewer) {
             '<div class="cesium-popup-content-wrapper">' +
             '<div id="trackPopUpLink" class="cesium-popup-content"></div>' +
             '</div>' +'</div>' +'</div>';
-        $ ("#cesiumContainer").append(infoDiv);
+            document.getElementById("cesiumContainer").append(infoDiv);
 
         var pick = scene.pick(movement.position);
         if (pick !=null && pick.id.name) {
-            $('#trackPopUp').show();
+            document.getElementById('trackPopUp').show();
             var content = '<table class="pure-table pure-table-horizontal"><tbody>' +
                 '<thead style="color: #1398e0;text-align: left;vertical-align: bottom;"><tr><td colspan="2">皖东大学建筑</td></tr></thead>'+
                 '<tr><th style="color:#1398e0;">建筑物名称：</th><td style="color:#1398e0;text-align: right;">'+ pick.id.name +'</td></tr>'+
@@ -34,27 +33,27 @@ export  function OpenPopdlg(viewer) {
                 var c = new Cesium.Cartesian2(obj.position.x, obj.position.y);
                 var picked = scene.pick(obj.position);
                 var id = Cesium.defaultValue(picked._batchId, picked.primitive.id);
-                $(".cesium-selection-wrapper").show();
-                $('#trackPopUpLink').empty();
-                $('#trackPopUpLink').append(obj.content);
+                document.getElementsByClassName("cesium-selection-wrapper").show();
+                document.getElementById('trackPopUpLink').empty();
+                document.getElementById('trackPopUpLink').append(obj.content);
                 positionPopUp(c); // 初始位置
                 function positionPopUp(c) {
-                    var x = c.x - ($('#trackPopUpContent').width()) / 2;
-                    var y = c.y - ($('#trackPopUpContent').height());
-                    $('#trackPopUpContent').css('transform', 'translate3d(' + x + 'px, ' + y + 'px, 0)');
+                    var x = c.x - (document.getElementById('trackPopUpContent').width()) / 2;
+                    var y = c.y - (document.getElementById('trackPopUpContent').height());
+                    document.getElementById('trackPopUpContent').css('transform', 'translate3d(' + x + 'px, ' + y + 'px, 0)');
                 }
-                $('#trackPopUp').show();
-                $('.cesium-popup-close-button').click(function () {
-                    $('#trackPopUp').hide();
-                    $('#trackPopUpLink').empty();
-                    $(".cesium-selection-wrapper").hide();
+                document.getElementById('trackPopUp').show();
+                document.getElementsByClassName('cesium-popup-close-button').click(function () {
+                    document.getElementById('trackPopUp').hide();
+                    document.getElementById('trackPopUpLink').empty();
+                    document.getElementsByClassName("cesium-selection-wrapper").hide();
                     return false;
                 });
                 return id;
             }
         }
         else {
-            $('#trackPopUp').hide();
+            document.getElementById('trackPopUp').hide();
         }
 
     },Cesium.ScreenSpaceEventType.LEFT_CLICK);

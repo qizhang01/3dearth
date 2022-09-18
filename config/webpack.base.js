@@ -1,6 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -11,9 +9,6 @@ const APP_PATH = path.resolve(__dirname, '../src');
 
 // const bundleAnalyzerReport = argv.report;
 
-const webpackConfig = {
-    plugins: []
-};
 // if (bundleAnalyzerReport) {
 //     webpackConfig.plugins.push(new BundleAnalyzerPlugin({
 //         analyzerMode: 'static',
@@ -22,13 +17,12 @@ const webpackConfig = {
 //     }));
 // }
 
-module.exports = merge(webpackConfig, {
+module.exports =  {
     devtool: false,
     entry: {
         app: './src/index.tsx',
     },
     output: {
-        filename: 'js/[name].bundle.js',
         path: config.assetsRoot,
         sourcePrefix: ''
     },
@@ -166,11 +160,12 @@ module.exports = merge(webpackConfig, {
         // 清理打包目录
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            inject: true,
             template: config.indexPath,
-            showErrors: true
+            minify: {
+                html5: true
+            },
+            hash: false
         }),
-
         // 在html模板中能够使用环境变量
         // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
         // 在js代码中能够使用环境变量(demo: process.env.NODE_ENV === 'production')
@@ -208,4 +203,4 @@ module.exports = merge(webpackConfig, {
             }
         }
     }
-});
+}

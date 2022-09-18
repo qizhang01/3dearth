@@ -1,7 +1,5 @@
 import React from 'react'
 import { HashRouter as Router, Route, Redirect } from 'react-router-dom'
-import { RenderRoutes } from '@/router/RenderRoutes'
-import { routes } from '@/router/router'
 import { Loading } from '@/assets/images'
 import '@/assets/style/theme.less'
 import loadable from '@loadable/component'

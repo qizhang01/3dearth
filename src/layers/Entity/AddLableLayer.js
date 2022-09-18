@@ -11,10 +11,10 @@ export default class LableEntityManage {
 
     AddLabeentity(){
         this.viewer.entities.add({
-            name: '1号大棚',
+            name: '1号',
             position: Cesium.Cartesian3.fromDegrees(106.5330505371, 29.4914218783,300),
             label: { //文字标签
-                text: '一号建筑',
+                text: 'ocbc上海',
                 font: '500 30px Helvetica',// 15pt monospace
                 scale: 0.5,
                 style: Cesium.LabelStyle.FILL,
