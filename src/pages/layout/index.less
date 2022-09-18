@@ -1,0 +1,50 @@
+.layout-sidebar {
+    
+    .layout-sidebar__header {
+        padding: 15px;
+        height: 60px;
+        background: #001529;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .ant-layout-content {
+        background: papayawhip;
+        
+    }
+    
+    .ant-layout-footer {
+        background: #001529;
+        padding: 15px;
+        text-align: center;
+        
+        a {
+            color: #fff;
+        }
+    }
+    
+}
+
+
+.layout-warpper-content {
+    overflow: hidden;
+    .ant-layout-header {
+        padding: 0 20px;
+        box-shadow: 2px 2px 12px 2px #888;      
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        z-index: 3;
+    }
+    
+    .ant-layout-content {
+        background: rgba(0,0,0,.25);
+        z-index: 2;
+        .cesium-viewer-toolbar{
+            top: 5%;
+        }
+    }
+
+}
