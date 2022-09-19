@@ -191,14 +191,15 @@ module.exports =  {
         // 最新版webpack使用config.optimization.splitChunks去设置
         splitChunks: {
             maxInitialRequests: Infinity,
-            minSize: 0,
-            maxSize: 250000,
+            minSize: 30000,
+            maxSize: 500000,
             cacheGroups: {
                 commons: {
                     name: 'Cesium',
                     test: /[\\/]node_modules[\\/]cesium/,
                     priority: 10,
-                    chunks: 'all'
+                    minChunks:2,
+                    chunks: 'initial'
                 }
             }
         }

@@ -119,7 +119,7 @@ const PageSub1: React.FC = () => {
             viewbase.activeFlytoViwer(EarthBaseConfig.initviewpoint, -20, -20, 0)
             let lable = new LableEntityManage(window.Scene.viewer)
             lable.AddLabeentity()
-            // OpenPopdlg(window.Scene.viewer);
+            OpenPopdlg(window.Scene.viewer)
         }
         // return viewer
     }
@@ -152,14 +152,59 @@ const PageSub1: React.FC = () => {
         })
     }
     const goToShanghai = () => {
-        console.log(viewbase)
-        console.log(window.Scene.viewer)
+        activeFlytoViwer([121.5354, 31.226, 1000], -10, -10, 0)
     }
 
     const goToShenzhen = () => {
         console.log(window.Scene.viewer)
     }
 
+    const addLoopPolyline = () => {}
+    /**
+     * 重写场景飞行定位类
+     */
+    const activeFlytoViwer = (position: any, heading: number, pitch: number, roll: number) => {
+        window.Scene.viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2]),
+            complete: () => {
+                setTimeout(() => {
+                    // const polylines = new Cesium.PolylineCollection()
+                    window.Scene.viewer.entities.add({
+                        name: '边界',
+                        id: 'polyline',
+                        position: Cesium.Cartesian3.fromDegrees(121.53626, 31.2269, 0),
+                        label: {
+                            //文字标签
+                            text: 'ocbc上海',
+                            font: '500 30px Helvetica', // 15pt monospace
+                            scale: 0.5,
+                            style: Cesium.LabelStyle.FILL,
+                            fillColor: Cesium.Color.WHITE,
+                            showBackground: true,
+                            backgroundColor: new Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0),
+                        },
+                        polyline: new Cesium.PolylineGraphics({
+                            positions: Cesium.Cartesian3.fromDegreesArray([
+                                121.53626,
+                                31.2269,
+                                121.5342,
+                                31.2262,
+                                121.53468,
+                                31.225,
+                                121.53677,
+                                31.2262,
+                                121.53626,
+                                31.2269,
+                            ]),
+                            material: Cesium.Color.BROWN,
+                            width: 3.0,
+                            clampToGround: true,
+                        }),
+                    })
+                }, 500)
+            },
+        })
+    }
     return (
         <Panel>
             <div>
@@ -167,6 +212,15 @@ const PageSub1: React.FC = () => {
                     <Button onClick={goToShanghai}>上海</Button>
                     <Button onClick={goToShenzhen}>深圳</Button>
                 </section>
+                <div className="status_location">
+                    <label className="coordinate_location">
+                        经度:{position.lon}°， 纬度:{position.lat}°， 视角海拔高度:{position.height}
+                        米
+                    </label>
+                    <label id="coordinate_cameraheight">
+                        航向角 {position.heading}°， 俯仰角 {position.pitch}°，滚转角{position.roll}
+                    </label>
+                </div>
                 <div id="CesiumContainer"></div>
             </div>
         </Panel>

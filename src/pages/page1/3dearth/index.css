@@ -61,3 +61,13 @@
     top: 50px;
     z-index: 200;
 }
+.status_location {
+    position: absolute;
+    left: 20px;
+    bottom: 50px;
+    z-index: 100;
+    color: white;
+}
+.coordinate_location{
+    margin-right: 6px;
+}
