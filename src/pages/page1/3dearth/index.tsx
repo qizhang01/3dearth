@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Panel } from '@/components/Panel'
-import { Button } from 'antd'
+import { Button, Modal, Carousel } from 'antd'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 import './index.css'
 import * as Cesium from 'cesium'
@@ -9,12 +9,13 @@ import CesiumNavigation from 'cesium-navigation-es6'
 import { AddArcGISLayers } from '@/layers/Layer/ArcGISLayers'
 import { AddWMTSLayers } from '@/layers/Layer/wmtsLayers'
 import { AddTerrainLayers } from '@/layers/Layer/TerrainLayer'
-
-import { OpenPopdlg } from '@/layers/Entity/PickEnitydlg'
+import logo from '../../assets/images/ocbc.png'
+// import { OpenPopdlg } from '@/layers/Entity/PickEnitydlg'
 import ViewerBase from '@/layers/Scene/ViewerBase'
 import LableEntityManage from '@/layers/Entity/AddLableLayer'
 import { EarthBaseConfig } from '@/config/config'
 
+import GlobeRotate from '@/utils/globeAround'
 type Options = {
     defaultResetView: any
     enableCompass: boolean
@@ -22,6 +23,14 @@ type Options = {
     enableDistanceLegend: boolean
     enableCompassOuterRing: boolean
 }
+const contentStyle: React.CSSProperties = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+}
+let globeRotate: any = null
 const PageSub1: React.FC = () => {
     let viewer: any = null
     let viewbase: any = null
@@ -34,6 +43,8 @@ const PageSub1: React.FC = () => {
         roll: 0,
     }
     const [position, setPosition] = useState(MousePosition)
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [startAround, setIfAround] = useState(true)
     useEffect(() => {
         init3dViewer()
         if (viewer) {
@@ -116,10 +127,13 @@ const PageSub1: React.FC = () => {
             window.Scene.viewer = viewer
             viewbase = new ViewerBase(viewer)
             viewbase.getCurMousePosition(callbackUPDataPosition)
-            viewbase.activeFlytoViwer(EarthBaseConfig.initviewpoint, -20, -20, 0)
+            globeRotate = new GlobeRotate(viewer)
+            globeRotate.start()
             let lable = new LableEntityManage(window.Scene.viewer)
             lable.AddLabeentity()
-            OpenPopdlg(window.Scene.viewer)
+            createPrimitives()
+            OpenPopdlg()
+            drawLines()
         }
         // return viewer
     }
@@ -152,13 +166,166 @@ const PageSub1: React.FC = () => {
         })
     }
     const goToShanghai = () => {
+        globeRotate.stop()
         activeFlytoViwer([121.5354, 31.226, 1000], -10, -10, 0)
     }
 
     const goToShenzhen = () => {
-        console.log(window.Scene.viewer)
+        globeRotate.stop()
+        console.log(globeRotate)
+    }
+    const toggleAround = () => {
+        if (startAround) {
+            globeRotate.stop()
+        } else {
+            globeRotate.start()
+        }
+        setIfAround(!startAround)
+    }
+    const handleCloseModal = () => {
+        setIsModalOpen(false)
+    }
+    const drawLines = () => {
+        //     const purpleArrow = window.Scene.viewer.entities.add({
+        //         name: 'Purple straight arrow at height',
+        //         polyline: {
+        //             positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+        //                 -75,
+        //                 43,
+        //                 500000,
+        //                 -125,
+        //                 43,
+        //                 500000,
+        //             ]),
+        //             width: 10,
+        //             arcType: Cesium.ArcType.NONE,
+        //             material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.PURPLE),
+        //         },
+        //     })
+
+        const czml = [
+            {
+                id: 'document',
+                name: 'CZML Geometries: Polyline',
+                version: '1.0',
+            },
+            {
+                id: 'toShanghai',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 121.495, 31.24, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toShenzhen',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 110.66, 21.35, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'purple',
+                name: 'toLondon',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, -2.24, 53.2, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toWashington',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, -68.9, 46.09, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+        ]
+
+        const dataSourcePromise = Cesium.CzmlDataSource.load(czml)
+        window.Scene.viewer.dataSources.add(dataSourcePromise)
     }
 
+    const createPrimitives = () => {
+        let rectangle = window.Scene.viewer.scene.primitives.add(
+            new Cesium.Primitive({
+                geometryInstances: new Cesium.GeometryInstance({
+                    geometry: new Cesium.RectangleGeometry({
+                        rectangle: Cesium.Rectangle.fromDegrees(80.0, 25.0, 130.0, 45.0),
+                        vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                    }),
+                }),
+                appearance: new Cesium.EllipsoidSurfaceAppearance({
+                    aboveGround: false,
+                    // material: new Cesium.Material({
+                    //     fabric: {
+                    //         type: 'SpecularMap',
+                    //         uniforms: {
+                    //             image: 'static/media/ocbc.png',
+                    //             channel: 'r',
+                    //         },
+                    //     },
+                    // }),
+                }),
+            })
+        )
+    }
+    const OpenPopdlg = () => {
+        let scene = window.Scene.viewer.scene
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas)
+        handler.setInputAction(function(movement) {
+            var pick = scene.pick(movement.position)
+            if (pick != null && pick.id.id == 'polyline') {
+                console.log('6666666666', pick.id.id)
+                setIsModalOpen(true)
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+    }
     const addLoopPolyline = () => {}
     /**
      * 重写场景飞行定位类
@@ -175,7 +342,7 @@ const PageSub1: React.FC = () => {
                         position: Cesium.Cartesian3.fromDegrees(121.53626, 31.2269, 0),
                         label: {
                             //文字标签
-                            text: 'ocbc上海',
+                            text: 'ocbc tower',
                             font: '500 30px Helvetica', // 15pt monospace
                             scale: 0.5,
                             style: Cesium.LabelStyle.FILL,
@@ -211,6 +378,7 @@ const PageSub1: React.FC = () => {
                 <section className="operate_button">
                     <Button onClick={goToShanghai}>上海</Button>
                     <Button onClick={goToShenzhen}>深圳</Button>
+                    <Button onClick={toggleAround}>{startAround ? '停止' : '转动'}</Button>
                 </section>
                 <div className="status_location">
                     <label className="coordinate_location">
@@ -223,6 +391,27 @@ const PageSub1: React.FC = () => {
                 </div>
                 <div id="CesiumContainer"></div>
             </div>
+            <Modal
+                title="Basic Modal"
+                visible={isModalOpen}
+                onOk={handleCloseModal}
+                onCancel={handleCloseModal}
+            >
+                <Carousel autoplay>
+                    <div>
+                        <h3 style={contentStyle}>1</h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>2</h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>3</h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>4</h3>
+                    </div>
+                </Carousel>
+            </Modal>
         </Panel>
     )
 }

@@ -6,6 +6,7 @@ import { Auth } from '@/auth'
 import { routeProps } from '@/types/route'
 import './index.less'
 import loadable from '@loadable/component'
+import logo from '../../assets/images/ocbc.png'
 const D3earth = loadable(() => import('@/pages/page1/3dearth'))
 const { Sider, Header, Content } = Layout
 const SubMenu = Menu.SubMenu
@@ -40,6 +41,7 @@ const AppLayout: React.FC<routeProps> = (routeProps: routeProps) => {
         <Layout>
             <Layout className="layout-warpper-content">
                 {/* <Header>
+                    <img src={logo}></img>
                     <Button onClick={logout}>退出</Button>
                 </Header> */}
 

@@ -5,7 +5,7 @@
  export const EarthBaseConfig = {
     //初始化地图中心点配置
     //神农架
-    initviewpoint: [120.557547,  31.221136, 17650],
+    initviewpoint: [121.495, 31.240, 1650],
     //重庆
     //initviewpoint: [106.5443289, 29.48862215, 2765],
     //初始化地图位置矩形区域位置配置

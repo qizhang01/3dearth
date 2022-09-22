@@ -131,7 +131,7 @@ module.exports =  {
                         loader: 'url-loader',
                         options: {
                             limit: 6 * 1024,
-                            name: 'static/media/[name].[hash:8].[ext]',
+                            name: 'static/media/[name].[ext]',
                         }
                     },
                     {
