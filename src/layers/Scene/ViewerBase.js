@@ -77,11 +77,11 @@ export default class ViewerBase {
                             position[1],
                             position[2]
                         ),
-                        orientation:{
-                            heading: Cesium.Math.toRadians(heading),
-                            pitch: Cesium.Math.toRadians(pitch),
-                            roll:Cesium.Math.toRadians(roll),
-                        },
+                        // orientation:{
+                        //     heading: Cesium.Math.toRadians(heading),
+                        //     pitch: Cesium.Math.toRadians(pitch),
+                        //     roll:Cesium.Math.toRadians(roll),
+                        // },
                         easingFunction: Cesium.EasingFunction.LINEAR_NONE,
                     })
                 },500);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Panel } from '@/components/Panel'
-import { Button, Modal, Carousel } from 'antd'
+import { Button, Modal, Carousel, Select } from 'antd'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 import './index.css'
 import * as Cesium from 'cesium'
@@ -16,6 +16,9 @@ import LableEntityManage from '@/layers/Entity/AddLableLayer'
 import { EarthBaseConfig } from '@/config/config'
 
 import GlobeRotate from '@/utils/globeAround'
+
+const { Option } = Select
+
 type Options = {
     defaultResetView: any
     enableCompass: boolean
@@ -31,9 +34,10 @@ const contentStyle: React.CSSProperties = {
     background: '#364d79',
 }
 let globeRotate: any = null
+let viewbase: any = null
+
 const PageSub1: React.FC = () => {
     let viewer: any = null
-    let viewbase: any = null
     const MousePosition = {
         lon: 0,
         lat: 0,
@@ -127,6 +131,7 @@ const PageSub1: React.FC = () => {
             window.Scene.viewer = viewer
             viewbase = new ViewerBase(viewer)
             viewbase.getCurMousePosition(callbackUPDataPosition)
+            // viewbase.activeFlytoViwer(EarthBaseConfig.initviewpoint, -20, -20, 0)
             globeRotate = new GlobeRotate(viewer)
             globeRotate.start()
             let lable = new LableEntityManage(window.Scene.viewer)
@@ -172,7 +177,7 @@ const PageSub1: React.FC = () => {
 
     const goToShenzhen = () => {
         globeRotate.stop()
-        console.log(globeRotate)
+        viewbase.activeFlytoViwer(EarthBaseConfig.szviewpoint, -10, -10, 0)
     }
     const toggleAround = () => {
         if (startAround) {
@@ -186,23 +191,6 @@ const PageSub1: React.FC = () => {
         setIsModalOpen(false)
     }
     const drawLines = () => {
-        //     const purpleArrow = window.Scene.viewer.entities.add({
-        //         name: 'Purple straight arrow at height',
-        //         polyline: {
-        //             positions: Cesium.Cartesian3.fromDegreesArrayHeights([
-        //                 -75,
-        //                 43,
-        //                 500000,
-        //                 -125,
-        //                 43,
-        //                 500000,
-        //             ]),
-        //             width: 10,
-        //             arcType: Cesium.ArcType.NONE,
-        //             material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.PURPLE),
-        //         },
-        //     })
-
         const czml = [
             {
                 id: 'document',
@@ -214,7 +202,7 @@ const PageSub1: React.FC = () => {
                 name: 'Purple arrow at height',
                 polyline: {
                     positions: {
-                        cartographicDegrees: [103.83, 1.36, 500000, 121.495, 31.24, 500000],
+                        cartographicDegrees: [103.53, 1.36, 500000, 121.495, 31.24, 500000],
                     },
                     material: {
                         polylineArrow: {
@@ -233,7 +221,121 @@ const PageSub1: React.FC = () => {
                 name: 'Purple arrow at height',
                 polyline: {
                     positions: {
-                        cartographicDegrees: [103.83, 1.36, 500000, 110.66, 21.35, 500000],
+                        cartographicDegrees: [103.83, 1.36, 500000, 113.71, 23.04, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toMaco',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 113.47, 22.15, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toTaiwan',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 120.9, 24.37, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toYajda',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 106.367, -6.108, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toJlpore',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 100.9, 4.14, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toTailand',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 100, 13.785, 500000],
+                    },
+                    material: {
+                        polylineArrow: {
+                            color: {
+                                rgba: [148, 0, 211, 255],
+                            },
+                        },
+                    },
+                    // arcType: 'NONE',
+                    width: 6,
+                    clampToGround: true,
+                },
+            },
+            {
+                id: 'toHonkong',
+                name: 'Purple arrow at height',
+                polyline: {
+                    positions: {
+                        cartographicDegrees: [103.83, 1.36, 500000, 114.15, 22.45, 500000],
                     },
                     material: {
                         polylineArrow: {
@@ -296,7 +398,7 @@ const PageSub1: React.FC = () => {
             new Cesium.Primitive({
                 geometryInstances: new Cesium.GeometryInstance({
                     geometry: new Cesium.RectangleGeometry({
-                        rectangle: Cesium.Rectangle.fromDegrees(80.0, 25.0, 130.0, 45.0),
+                        rectangle: Cesium.Rectangle.fromDegrees(160.0, 25.0, -140.0, 45.0),
                         vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
                     }),
                 }),
@@ -326,7 +428,17 @@ const PageSub1: React.FC = () => {
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
     }
-    const addLoopPolyline = () => {}
+    const handleChange = (value: string) => {
+        if (value == '1') {
+            viewbase.activeFlytoViwer(EarthBaseConfig.initviewpoint, -10, -10, 0)
+        } else if (value == '2') {
+            goToShanghai()
+        } else if (value == '3') {
+            goToShenzhen()
+        } else if (value == '4') {
+            viewbase.activeFlytoViwer(EarthBaseConfig.sgporeviewpoint, -10, -10, 0)
+        }
+    }
     /**
      * 重写场景飞行定位类
      */
@@ -376,9 +488,18 @@ const PageSub1: React.FC = () => {
         <Panel>
             <div>
                 <section className="operate_button">
-                    <Button onClick={goToShanghai}>上海</Button>
-                    <Button onClick={goToShenzhen}>深圳</Button>
-                    <Button onClick={toggleAround}>{startAround ? '停止' : '转动'}</Button>
+                    <Select
+                        style={{ width: 120 }}
+                        onChange={handleChange}
+                        className="style_select"
+                        placeholder="请选择位置"
+                    >
+                        <Option value="1">上海陆家嘴</Option>
+                        <Option value="2">ocbc tower</Option>
+                        <Option value="3">深圳</Option>
+                        <Option value="4">新加坡</Option>
+                    </Select>
+                    <Button onClick={toggleAround}>{startAround ? '停止转动' : '转动星球'}</Button>
                 </section>
                 <div className="status_location">
                     <label className="coordinate_location">
