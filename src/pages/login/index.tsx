@@ -63,9 +63,9 @@ const useAccount = (props: FormData) => {
 }
 
 const Login: React.FC = () => {
-    if (Auth.authContent) {
-        window.location.href = '#/root/3dEarth'
-    }
+    // if (Auth.authContent) {
+    //     window.location.href = '#/root/3dEarth'
+    // }
 
     // 自定义Hook
     const { formData, setAccount } = useAccount({

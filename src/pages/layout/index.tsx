@@ -8,6 +8,8 @@ import './index.less'
 import loadable from '@loadable/component'
 import logo from '../../assets/images/ocbc.png'
 const D3earth = loadable(() => import('@/pages/page1/3dearth'))
+const Vrbuilding = loadable(() => import('@/pages/page1/vrbuilding'))
+
 const { Sider, Header, Content } = Layout
 const SubMenu = Menu.SubMenu
 
@@ -48,6 +50,7 @@ const AppLayout: React.FC<routeProps> = (routeProps: routeProps) => {
                 <Content>
                     <Switch>
                         <Route path="/root/3dEarth" component={D3earth}></Route>
+                        <Route path="/root/vrbuilding" component={Vrbuilding}></Route>
                     </Switch>
                 </Content>
             </Layout>

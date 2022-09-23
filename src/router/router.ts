@@ -22,16 +22,21 @@ export const routes: RouteInterface[] = [
                 auth: false,
             },
 
-            {
-                path:"",
-                component: loadable(() => import('@/pages/status/no-auth')),
-                exact: true,
-            },
+            // {
+            //     path:"",
+            //     component: loadable(() => import('@/pages/status/no-auth')),
+            //     exact: true,
+            // },
         ],
     },
     {
         path: "",
         component: loadable(() => import('@/pages/status/404')),
         name: '404',
+    },
+    {
+        path:"",
+        component: loadable(() => import('@/pages/status/no-auth')),
+        exact: true,
     },
 ]
