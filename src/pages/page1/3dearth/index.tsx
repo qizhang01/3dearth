@@ -9,7 +9,6 @@ import CesiumNavigation from 'cesium-navigation-es6'
 import { AddArcGISLayers } from '@/layers/Layer/ArcGISLayers'
 import { AddWMTSLayers } from '@/layers/Layer/wmtsLayers'
 import { AddTerrainLayers } from '@/layers/Layer/TerrainLayer'
-import logo from '../../assets/images/ocbc.png'
 // import { OpenPopdlg } from '@/layers/Entity/PickEnitydlg'
 import ViewerBase from '@/layers/Scene/ViewerBase'
 import LableEntityManage from '@/layers/Entity/AddLableLayer'
@@ -404,15 +403,30 @@ const PageSub1: React.FC = () => {
                 }),
                 appearance: new Cesium.EllipsoidSurfaceAppearance({
                     aboveGround: false,
-                    // material: new Cesium.Material({
-                    //     fabric: {
-                    //         type: 'SpecularMap',
-                    //         uniforms: {
-                    //             image: 'static/media/ocbc.png',
-                    //             channel: 'r',
-                    //         },
-                    //     },
-                    // }),
+                    material: new Cesium.Material({
+                        // fabric: {
+                        //     type: 'SpecularMap',
+                        //     uniforms: {
+                        //         image: 'static/media/ocbc.png',
+                        //         channel: 'r',
+                        //     },
+                        // },
+                        fabric: {
+                            materials: {
+                                alphaMaterial: {
+                                    type: 'AlphaMap',
+                                    uniforms: {
+                                        image: 'glb/ocbc.jpg',
+                                        channel: 'r',
+                                    },
+                                },
+                            },
+                            components: {
+                                diffuse: 'vec3(1.0)',
+                                alpha: 'alphaMaterial.alpha',
+                            },
+                        },
+                    }),
                 }),
             })
         )
