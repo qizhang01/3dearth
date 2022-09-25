@@ -8,6 +8,8 @@ let viewer: any = null
 let osmBuildingsTileset: any = null
 
 const Vrbuilding: React.FC = () => {
+    const [rs, setRS] = React.useState('')
+
     React.useEffect(() => {
         init3dViewer()
     }, [])
@@ -47,6 +49,7 @@ const Vrbuilding: React.FC = () => {
         colorByMaterial()
         setTimeout(() => {
             createModel('glb/Air.glb', 500)
+            setRS('glb/air.mp3')
         }, 2000)
     }
 
@@ -173,6 +176,7 @@ const Vrbuilding: React.FC = () => {
                     <Option value="1">默认颜色</Option>
                     <Option value="2">换肤功能</Option>
                 </Select>
+                <audio autoPlay src={rs}></audio>
             </div>
         </Panel>
     )
