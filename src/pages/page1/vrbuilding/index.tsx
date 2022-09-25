@@ -45,7 +45,9 @@ const Vrbuilding: React.FC = () => {
         })
 
         colorByMaterial()
-        createModel('glb/Air.glb', 500)
+        setTimeout(() => {
+            createModel('glb/Air.glb', 500)
+        }, 2000)
     }
 
     const colorByMaterial = () => {
@@ -71,17 +73,64 @@ const Vrbuilding: React.FC = () => {
     // 5000.0
     const createModel = (url: string, height: number) => {
         viewer.entities.removeAll()
-        const position = Cesium.Cartesian3.fromDegrees(-122.3472, 47.518, height)
-        const heading = Cesium.Math.toRadians(-90)
-        const pitch = 0
-        const roll = 0
-        const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
-        const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr)
+        // const position = Cesium.Cartesian3.fromDegrees(-122.3472, 47.518, height)
+        // const heading = Cesium.Math.toRadians(-90)
+        // const pitch = 0
+        // const roll = 0
+        // const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+        // const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr)
+
+        //Set bounds of our simulation time
+        const start = Cesium.JulianDate.fromDate(new Date())
+        const stop = Cesium.JulianDate.addSeconds(start, 360, new Cesium.JulianDate())
+
+        //Make sure viewer is at the desired time.
+        viewer.clock.startTime = start.clone()
+        viewer.clock.stopTime = stop.clone()
+        viewer.clock.currentTime = start.clone()
+        viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP //Loop at the end
+        viewer.clock.multiplier = 10
+
+        //Generate a random circular pattern with varying heights.
+        function computeCirclularFlight(lon: number, lat: number, radius: number) {
+            const property = new Cesium.SampledPositionProperty()
+
+            const time1 = Cesium.JulianDate.addSeconds(start, 100, new Cesium.JulianDate())
+            const position1 = Cesium.Cartesian3.fromDegrees(-122.3472, 47.408, 370)
+
+            property.addSample(time1, position1)
+
+            const time2 = Cesium.JulianDate.addSeconds(start, 260, new Cesium.JulianDate())
+            const position2 = Cesium.Cartesian3.fromDegrees(-122.3472, 47.598, 370)
+
+            property.addSample(time2, position2)
+
+            return property
+        }
+
+        //Compute the entity position property.
+        const position1 = computeCirclularFlight(-112.110693, 36.0994841, 0.03)
 
         const entity = viewer.entities.add({
             name: url,
-            position: position,
-            orientation: orientation,
+            //Set the entity availability to the same interval as the simulation time.
+            availability: new Cesium.TimeIntervalCollection([
+                new Cesium.TimeInterval({
+                    start: start,
+                    stop: stop,
+                }),
+            ]),
+            //Show the path as a pink line sampled in 1 second increments.
+            path: {
+                resolution: 1,
+                material: new Cesium.PolylineGlowMaterialProperty({
+                    glowPower: 0.1,
+                    color: Cesium.Color.YELLOW,
+                }),
+                width: 10,
+            },
+            position: position1,
+            orientation: new Cesium.VelocityOrientationProperty(position1),
             model: {
                 uri: url,
                 minimumPixelSize: 128,

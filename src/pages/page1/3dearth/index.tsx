@@ -511,28 +511,28 @@ const PageSub1: React.FC = () => {
                     </label>
                 </div>
                 <div id="CesiumContainer"></div>
+                <Modal
+                    title="Basic Modal"
+                    visible={isModalOpen}
+                    onOk={handleCloseModal}
+                    onCancel={handleCloseModal}
+                >
+                    <Carousel autoplay>
+                        <div>
+                            <h3 style={contentStyle}>1</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>2</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>3</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>4</h3>
+                        </div>
+                    </Carousel>
+                </Modal>
             </div>
-            <Modal
-                title="Basic Modal"
-                visible={isModalOpen}
-                onOk={handleCloseModal}
-                onCancel={handleCloseModal}
-            >
-                <Carousel autoplay>
-                    <div>
-                        <h3 style={contentStyle}>1</h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>2</h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>3</h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>4</h3>
-                    </div>
-                </Carousel>
-            </Modal>
         </Panel>
     )
 }
