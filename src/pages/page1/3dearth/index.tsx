@@ -412,18 +412,9 @@ const PageSub1: React.FC = () => {
                         //     },
                         // },
                         fabric: {
-                            materials: {
-                                alphaMaterial: {
-                                    type: 'AlphaMap',
-                                    uniforms: {
-                                        image: 'glb/ocbc.jpg',
-                                        channel: 'r',
-                                    },
-                                },
-                            },
-                            components: {
-                                diffuse: 'vec3(1.0)',
-                                alpha: 'alphaMaterial.alpha',
+                            type: 'DiffuseMap',
+                            uniforms: {
+                                image: 'glb/ocbc.jpg',
                             },
                         },
                     }),
@@ -500,7 +491,7 @@ const PageSub1: React.FC = () => {
     }
     return (
         <Panel>
-            <div>
+            <div className="container_view">
                 <section className="operate_button">
                     <Select
                         style={{ width: 120 }}
@@ -518,13 +509,13 @@ const PageSub1: React.FC = () => {
                 <div className="status_location">
                     <label className="coordinate_location">
                         经度:{position.lon}°， 纬度:{position.lat}°， 视角海拔高度:{position.height}
-                        米
+                        米，
                     </label>
                     <label id="coordinate_cameraheight">
                         航向角 {position.heading}°， 俯仰角 {position.pitch}°，滚转角{position.roll}
                     </label>
                 </div>
-                <div id="CesiumContainer"></div>
+                <div id="CesiumContainer" style={{ height: '100%' }}></div>
                 <Modal
                     title="Basic Modal"
                     visible={isModalOpen}

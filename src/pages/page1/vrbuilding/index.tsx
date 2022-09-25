@@ -162,8 +162,8 @@ const Vrbuilding: React.FC = () => {
     }
     return (
         <Panel>
-            <div>
-                <div id="buildingContainer"></div>
+            <div className="container_view">
+                <div id="buildingContainer" style={{ height: '100%' }}></div>
                 <Select
                     defaultValue="1"
                     style={{ width: 120 }}

@@ -64,10 +64,15 @@
 .status_location {
     position: absolute;
     left: 20px;
-    bottom: 50px;
+    bottom: 20px;
     z-index: 100;
     color: white;
 }
 .coordinate_location{
     margin-right: 6px;
+}
+
+.container_view {
+    position: relative;
+    height: 100%;
 }
