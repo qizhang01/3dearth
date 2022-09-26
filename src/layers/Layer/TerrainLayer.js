@@ -1,7 +1,7 @@
 /**
  * @Description:
  * @author  ZQ
- * @date 2022/2/8 18:53:48
+ * @date 2022/8 
  */
 import * as Cesium from 'cesium'
 import {EarthBaseConfig} from "../../config/config"
