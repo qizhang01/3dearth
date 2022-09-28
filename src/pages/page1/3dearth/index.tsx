@@ -13,7 +13,9 @@ import { AddTerrainLayers } from '@/layers/Layer/TerrainLayer'
 import ViewerBase from '@/layers/Scene/ViewerBase'
 import LableEntityManage from '@/layers/Entity/AddLableLayer'
 import { EarthBaseConfig } from '@/config/config'
-
+import Pic1 from '@/assets/images/11.jpg'
+import Pic2 from '@/assets/images/22.jpg'
+import Pic3 from '@/assets/images/33.jpg'
 import GlobeRotate from '@/utils/globeAround'
 
 const { Option } = Select
@@ -26,14 +28,16 @@ type Options = {
     enableCompassOuterRing: boolean
 }
 const contentStyle: React.CSSProperties = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
+    height: '260px',
+    lineHeight: '260px',
     textAlign: 'center',
     background: '#364d79',
+    display: 'flex',
+    justifyContent: 'center',
 }
 let globeRotate: any = null
 let viewbase: any = null
+const picArr = [Pic1, Pic2, Pic3]
 
 const PageSub1: React.FC = () => {
     let viewer: any = null
@@ -170,12 +174,10 @@ const PageSub1: React.FC = () => {
         })
     }
     const goToShanghai = () => {
-        globeRotate.stop()
         activeFlytoViwer([121.5354, 31.226, 1000], -10, -10, 0)
     }
 
     const goToShenzhen = () => {
-        globeRotate.stop()
         viewbase.activeFlytoViwer(EarthBaseConfig.szviewpoint, -10, -10, 0)
     }
     const toggleAround = () => {
@@ -434,6 +436,7 @@ const PageSub1: React.FC = () => {
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
     }
     const handleChange = (value: string) => {
+        globeRotate.stop()
         if (value == '1') {
             viewbase.activeFlytoViwer(EarthBaseConfig.initviewpoint, -10, -10, 0)
         } else if (value == '2') {
@@ -517,24 +520,19 @@ const PageSub1: React.FC = () => {
                 </div>
                 <div id="CesiumContainer" style={{ height: '100%' }}></div>
                 <Modal
-                    title="Basic Modal"
+                    title="图片预览"
                     visible={isModalOpen}
                     onOk={handleCloseModal}
                     onCancel={handleCloseModal}
                 >
                     <Carousel autoplay>
-                        <div>
-                            <h3 style={contentStyle}>1</h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}>2</h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}>3</h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}>4</h3>
-                        </div>
+                        {picArr.map((item, index) => (
+                            <div key={index}>
+                                <h3 style={contentStyle}>
+                                    <img src={item} />
+                                </h3>
+                            </div>
+                        ))}
                     </Carousel>
                 </Modal>
             </div>
